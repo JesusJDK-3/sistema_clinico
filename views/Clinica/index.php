@@ -20,6 +20,11 @@ $rolUsuario = $_SESSION['rol'];        // Rol del usuario (ej. Gerente)
     <h1>Hola <?php echo htmlspecialchars($rolUsuario); ?></h1>
     <p>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>.</p>
 
+    <!-- Enlace al módulo de gestión de áreas psicológicas -->
+    <?php if ($rolUsuario === 'C.General'): ?>
+        <a href="Especialistas.php">Gestión de Áreas Psicológicas</a>
+    <?php endif; ?>
+
     <!-- Aquí puedes colocar más contenido según el rol -->
 </body>
 </html>

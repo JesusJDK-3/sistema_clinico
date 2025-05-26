@@ -17,7 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['rol']         = $datosUsuario['nombre_rol'];
 
         
-      header("Location: http://localhost/SistemaClinico/views/Clinica/index.php");
+      
+        header("Location: http://localhost/SistemaClinico/views/Clinica/Especialistas.php");
         exit;
     } else {
         // Error de login
