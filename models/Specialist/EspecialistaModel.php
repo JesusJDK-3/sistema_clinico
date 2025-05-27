@@ -8,7 +8,8 @@ class EspecialistaModel {
             FROM especialistas e
             INNER JOIN usuarios u ON e.idusuario = u.idusuario
             INNER JOIN areas a ON e.idarea = a.idarea
-            LEFT JOIN subareas s ON e.idsubarea = s.idsubarea");
+            LEFT JOIN subareas s ON e.idsubarea = s.idsubarea
+            WHERE u.idestado = 1"); // Solo activos
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         closeDatabase($pdo);
         return $result;
@@ -34,7 +35,7 @@ class EspecialistaModel {
         // Insertar en usuarios
         $stmt = $pdo->prepare("INSERT INTO usuarios (nombres, apellidos, dni, telefono, correo, idestado, idrol, usuario, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $usuario = strtolower(explode(' ', $data['nombres'])[0]) . rand(100,999);
-        $password = password_hash($data['dni'], PASSWORD_DEFAULT); // Contraseña igual que el DNI
+        $password = password_hash($data['dni'], PASSWORD_DEFAULT); // Contraseña igual que 
         $idrol = 3; // Rol especialista
         $idestado = 1; // Activo
 
@@ -89,8 +90,8 @@ class EspecialistaModel {
 
     public function deshabilitarEspecialista($id) {
         $pdo = connectDatabase();
-        // Cambia el estado del usuario a inactivo (0)
-        $stmt = $pdo->prepare("UPDATE usuarios SET idestado=0 WHERE idusuario=(SELECT idusuario FROM especialistas WHERE idespecialista=?)");
+        // Cambia el estado del usuario a inactivo (2)
+        $stmt = $pdo->prepare("UPDATE usuarios SET idestado=2 WHERE idusuario=(SELECT idusuario FROM especialistas WHERE idespecialista=?)");
         $stmt->execute([$id]);
         closeDatabase($pdo);
         return true;

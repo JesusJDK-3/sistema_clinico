@@ -1,0 +1,254 @@
+/* Estilos específicos para la tabla de especialistas */
+.table-container {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f3f4;
+}
+
+.table-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.table-stats {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Tabla principal */
+.specialists-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+.specialists-table thead {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.specialists-table th {
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+.specialists-table tbody tr {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.specialists-table tbody tr:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.specialists-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.specialists-table td {
+    padding: 15px 12px;
+    font-size: 0.9rem;
+    color: #2c3e50;
+    border: none;
+    vertical-align: middle;
+}
+
+/* Estilos específicos por columna */
+.specialists-table .id-col {
+    width: 60px;
+    font-weight: 600;
+    color: #667eea;
+}
+
+.specialists-table .name-col {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.specialists-table .dni-col {
+    font-family: 'Courier New', monospace;
+    background: #f8f9fa;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 0.85rem;
+}
+
+.specialists-table .contact-col {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+}
+
+.specialists-table .area-col {
+    position: relative;
+}
+
+.specialists-table .area-badge {
+    background: linear-gradient(135deg, #00b894, #00a085);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.specialists-table .subarea-badge {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 3px;
+}
+
+/* Columna de acciones */
+.specialists-table .actions-col {
+    width: 120px;
+    text-align: center;
+}
+
+.action-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+}
+
+/* Estados de fila */
+.specialists-table .row-selected {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-left: 4px solid #667eea;
+}
+
+.specialists-table .row-inactive {
+    opacity: 0.6;
+    background: #f8f9fa;
+}
+
+/* Responsive para tabla */
+@media (max-width: 1200px) {
+    .specialists-table {
+        font-size: 0.85rem;
+    }
+    
+    .specialists-table th,
+    .specialists-table td {
+        padding: 10px 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-container {
+        padding: 15px;
+        margin: 0 -10px;
+        border-radius: 10px;
+    }
+    
+    .specialists-table {
+        font-size: 0.8rem;
+    }
+    
+    .specialists-table th,
+    .specialists-table td {
+        padding: 8px 6px;
+    }
+    
+    .table-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+
+/* Scroll personalizado para tabla */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f3f4;
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a67d8, #6b5b95);
+}
+
+/* Loading state */
+.table-loading {
+    text-align: center;
+    padding: 40px;
+    color: #7f8c8d;
+}
+
+.table-empty {
+    text-align: center;
+    padding: 40px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* Animación de entrada */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.specialists-table tbody tr {
+    animation: slideInUp 0.3s ease forwards;
+}
+

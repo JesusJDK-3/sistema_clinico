@@ -18,12 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         
       
-        header("Location: http://localhost/SistemaClinico/views/Clinica/Especialistas.php");
+        header("Location: http://localhost/SistemaClinico/views/Clinica/principal.php");
         exit;
     } else {
         // Error de login
         $_SESSION['error_login'] = 'Usuario o contraseña incorrectos.';
-         header("Location: http://localhost/SistemaClinico/views/Clinica/login.php");
+        header("Location: http://localhost/SistemaClinico/views/Clinica/login.php");
         exit;
     }
 } else {
