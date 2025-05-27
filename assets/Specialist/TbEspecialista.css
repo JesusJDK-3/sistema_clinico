@@ -25,8 +25,7 @@
 }
 
 .table-stats {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
+    
     padding: 8px 15px;
     border-radius: 20px;
     font-size: 0.9rem;
@@ -45,8 +44,7 @@
 }
 
 .specialists-table thead {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
+    
 }
 
 .specialists-table th {
@@ -87,7 +85,7 @@
 .specialists-table .id-col {
     width: 60px;
     font-weight: 600;
-    color: #667eea;
+    color: #edeef0;
 }
 
 .specialists-table .name-col {
