@@ -1,10 +1,6 @@
 /* Estilos específicos para la tabla de especialistas */
 .table-container {
-    background: white;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    border: 1px solid rgba(0,0,0,0.05);
+    padding-top: 25px;
     overflow-x: auto;
 }
 
@@ -17,50 +13,30 @@
     border-bottom: 2px solid #f1f3f4;
 }
 
-.table-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin: 0;
-}
-
-.table-stats {
-    
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
 /* Tabla principal */
 .specialists-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
-    background: white;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,0,0,0.05);
 }
 
-.specialists-table thead {
-    
-}
 
 .specialists-table th {
-    padding: 15px 12px;
+    padding: 10px 12px; /* Reducido de 15px */
     text-align: left;
     font-weight: 600;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border: none;
+    background: transparent !important;
 }
 
 .specialists-table tbody tr {
     cursor: pointer;
     transition: all 0.3s ease;
-    border-bottom: 1px solid #f1f3f4;
+    background: white;
 }
 
 .specialists-table tbody tr:hover {
@@ -74,12 +50,62 @@
 }
 
 .specialists-table td {
-    padding: 15px 12px;
-    font-size: 0.9rem;
+    padding: 10px 12px; /* Reducido de 15px */
+    font-size: 1.0rem;
     color: #2c3e50;
     border: none;
     vertical-align: middle;
 }
+
+/* Contenedor para nombre con avatar */
+.name-with-avatar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-direction: row; /* Asegurar que estén en fila horizontal */
+}
+
+.user-avatar {
+    width: 35px; /* Reducido de 40px */
+    height: 35px; /* Reducido de 40px */
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.8rem; /* Reducido de 0.85rem */
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.user-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+/* Colores sólidos diferentes para cada avatar */
+.user-avatar:nth-of-type(8n+1) { background: #667eea; }
+.user-avatar:nth-of-type(8n+2) { background: #f5576c; }
+.user-avatar:nth-of-type(8n+3) { background: #4facfe; }
+.user-avatar:nth-of-type(8n+4) { background: #43e97b; }
+.user-avatar:nth-of-type(8n+5) { background: #fa709a; }
+.user-avatar:nth-of-type(8n+6) { background: #20bf6b; }
+.user-avatar:nth-of-type(8n+7) { background: #ff9a9e; }
+.user-avatar:nth-of-type(8n+8) { background: #a18cd1; }
+
+/* Método alternativo usando las filas de la tabla */
+tr:nth-child(8n+1) .user-avatar { background: #667eea; }
+tr:nth-child(8n+2) .user-avatar { background: #f5576c; }
+tr:nth-child(8n+3) .user-avatar { background: #4facfe; }
+tr:nth-child(8n+4) .user-avatar { background: #43e97b; }
+tr:nth-child(8n+5) .user-avatar { background: #fa709a; }
+tr:nth-child(8n+6) .user-avatar { background: #20bf6b; }
+tr:nth-child(8n+7) .user-avatar { background: #ff9a9e; }
+tr:nth-child(8n+8) .user-avatar { background: #a18cd1; }
 
 /* Estilos específicos por columna */
 .specialists-table .id-col {
@@ -95,15 +121,14 @@
 
 .specialists-table .dni-col {
     font-family: 'Courier New', monospace;
-    background: #f8f9fa;
     border-radius: 5px;
     padding: 5px 8px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
 .specialists-table .contact-col {
     color: #7f8c8d;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
 .specialists-table .area-col {
@@ -131,27 +156,63 @@
     margin-top: 3px;
 }
 
+/* Estilos para badges de área y subárea */
+.role-badge {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.role-badge .subarea-text {
+    background: rgba(186, 189, 230, 0.1);
+    
+    display: inline-block;
+}
+
 /* Columna de acciones */
 .specialists-table .actions-col {
     width: 120px;
     text-align: center;
 }
 
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
 .action-btn {
-    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-    color: white;
-    border: none;
-    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+    padding: 6px 8px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.85rem;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
 }
 
 .action-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.edit-btn:hover {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.delete-btn:hover {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
 }
 
 /* Estados de fila */
@@ -173,7 +234,13 @@
     
     .specialists-table th,
     .specialists-table td {
-        padding: 10px 8px;
+        padding: 8px 6px; /* Reducido */
+    }
+    
+    .user-avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
     }
 }
 
@@ -190,13 +257,33 @@
     
     .specialists-table th,
     .specialists-table td {
-        padding: 8px 6px;
+        padding: 6px 4px; /* Reducido */
     }
     
     .table-header {
         flex-direction: column;
         gap: 10px;
         align-items: flex-start;
+    }
+    
+    .user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+    }
+    
+    .action-buttons {
+        gap: 4px;
+    }
+    
+    .action-btn {
+        min-width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+    
+    .name-with-avatar {
+        gap: 8px;
     }
 }
 
@@ -249,4 +336,3 @@
 .specialists-table tbody tr {
     animation: slideInUp 0.3s ease forwards;
 }
-

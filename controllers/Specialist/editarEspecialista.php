@@ -20,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $controlador = new EspecialistaController();
     $controlador->editarEspecialista($id, $data);
 
-    header("Location: http://localhost/SistemaClinico/views/Clinica/Especialistas.php");
+    header("Location: http://localhost/SistemaClinico/views/Clinica/principal.php");
     exit;
 }
-header("Location: http://localhost/SistemaClinico/views/Clinica/Especialistas.php");
+header("Location: http://localhost/SistemaClinico/views/Clinica/principal.php");
 exit;

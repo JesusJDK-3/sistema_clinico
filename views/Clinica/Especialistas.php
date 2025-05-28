@@ -32,12 +32,10 @@ function abrirModal() {
 function cerrarModal() {
     document.getElementById('modalEspecialista').style.display = 'none';
     document.body.style.overflow = 'auto'; // Restaurar scroll del body
-    limpiarFormulario();
 }
 
 // Función para nuevo especialista
 function nuevoEspecialista() {
-    limpiarFormulario();
     abrirModal();
 }
 
@@ -68,6 +66,12 @@ function cargarEspecialista(esp) {
     abrirModal();
 }
 
+// Función específica para el botón de editar
+function editarEspecialista(esp, event) {
+    event.stopPropagation(); // Evitar que se active el click de la fila
+    cargarEspecialista(esp);
+}
+
 function mostrarSubarea() {
     var area = document.getElementById('idarea_esp').value;
     var subareaDiv = document.getElementById('subarea_div');
@@ -92,24 +96,6 @@ function mostrarSubarea() {
     } else {
         subareaDiv.style.display = 'none';
     }
-}
-
-function limpiarFormulario() {
-    document.getElementById('formEspecialista').action = "../../controllers/Specialist/agregarEspecialista.php";
-    document.getElementById('form_titulo').innerText = "Agregar Especialista";
-    document.getElementById('btn_guardar').innerText = "Agregar";
-    document.getElementById('edit_id').value = "";
-    document.getElementById('nombres').value = "";
-    document.getElementById('apellidos').value = "";
-    document.getElementById('dni').value = "";
-    document.getElementById('telefono').value = "";
-    document.getElementById('correo').value = "";
-    document.getElementById('idarea_esp').value = "";
-    document.getElementById('idsubarea').value = "";
-    document.getElementById('subarea_div').style.display = 'none';
-    document.querySelectorAll('.specialists-table tbody tr').forEach(row => {
-        row.classList.remove('row-selected');
-    });
 }
 
 // Cerrar modal al hacer clic fuera de él
@@ -140,10 +126,7 @@ window.onclick = function(event) {
             <?php endif; ?>
         </div>
     </div>
-    <div class="content-header">
-        <h1>Gestión de Especialistas</h1>
-        <div class="breadcrumb">Inicio > Especialistas</div>
-    </div>
+    
 
     <!-- Modal para Formulario de Especialista -->
     <?php if ($rol === 'C.General'): ?>
@@ -200,7 +183,6 @@ window.onclick = function(event) {
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">Limpiar</button>
                     <button type="button" class="btn btn-danger" onclick="cerrarModal()">Cancelar</button>
                     <button type="submit" form="formEspecialista" class="btn btn-primary" id="btn_guardar">Agregar</button>
                 </div>
@@ -209,49 +191,70 @@ window.onclick = function(event) {
     <?php endif; ?>
 
     <!-- Tabla de Especialistas -->
-    <div class="table-container">
-        <div class="table-header">
-            <span class="table-title">Listado de Especialistas</span>
-            <span class="table-stats"><?php echo count($especialistas); ?> registrados</span>
-        </div>
-        <table class="specialists-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>DNI</th>
-                    <th>Teléfono</th>
-                    <th>Correo</th>
-                    <th>Área</th>
-                    <th>Subárea</th>
-                    <?php if ($rol === 'C.General'): ?>
-                        <th>Acciones</th>
-                    <?php endif; ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($especialistas as $esp): ?>
-                <tr onclick='cargarEspecialista(<?php echo json_encode($esp); ?>)' style="cursor:pointer;">
-                    <td><?php echo $esp['idespecialista']; ?></td>
-                    <td><?php echo htmlspecialchars($esp['nombres']); ?></td>
-                    <td><?php echo htmlspecialchars($esp['apellidos']); ?></td>
-                    <td><?php echo htmlspecialchars($esp['dni']); ?></td>
-                    <td><?php echo htmlspecialchars($esp['telefono']); ?></td>
-                    <td><?php echo htmlspecialchars($esp['correo']); ?></td>
-                    <td><?php echo htmlspecialchars($esp['area']); ?></td>
-                    <td><?php echo htmlspecialchars($esp['subarea']); ?></td>
-                    <?php if ($rol === 'C.General'): ?>
-                    <td>
-                        <form method="POST" action="../../controllers/Specialist/deshabilitarEspecialista.php" style="display:inline;">
+<div class="table-container">
+    <table class="specialists-table">
+        <thead>
+            <tr>
+                <th>Nombres y Apellidos</th>
+                <th>DNI</th>
+                <th>Celular</th>
+                <th>Correo</th>
+                <th>AREA Y SUBAREA</th>
+                <?php if ($rol === 'C.General'): ?>
+                    <th class="actions-col">Acciones</th>
+                <?php endif; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($especialistas as $esp): ?>
+            <tr onclick='cargarEspecialista(<?php echo json_encode($esp); ?>)' class="table-row">
+                <td class="name-col">
+                    <div class="name-with-avatar">
+                        <div class="user-avatar">
+                            <?php 
+                            $iniciales = strtoupper(substr($esp['nombres'], 0, 1) . substr($esp['apellidos'], 0, 1));
+                            echo $iniciales;
+                            ?>
+                        </div>
+                        <div class="user-name">
+                            <?php echo htmlspecialchars($esp['nombres'] . ' ' . $esp['apellidos']); ?>
+                        </div>
+                    </div>
+                </td>
+                <td class="dni-col"><?php echo htmlspecialchars($esp['dni']); ?></td>
+                <td class="contact-col"><?php echo htmlspecialchars($esp['telefono']); ?></td>
+                <td class="contact-col"><?php echo htmlspecialchars($esp['correo']); ?></td>
+                <td class="role-col">
+                    <span class="role-badge">
+                        <?php echo htmlspecialchars($esp['area']); ?>
+                        <?php if (!empty($esp['subarea'])): ?>
+                            <small class="subarea-text"><?php echo htmlspecialchars($esp['subarea']); ?></small>
+                        <?php endif; ?>
+                    </span>
+                </td>
+                <?php if ($rol === 'C.General'): ?>
+                <td class="actions-col">
+                    <div class="action-buttons">
+                        <button type="button" 
+                                class="action-btn edit-btn" 
+                                onclick="editarEspecialista(<?php echo htmlspecialchars(json_encode($esp)); ?>, event)"
+                                title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <form method="POST" action="../../controllers/Specialist/deshabilitarEspecialista.php" style="display:inline;" 
+                              onsubmit="event.stopPropagation();">
                             <input type="hidden" name="id" value="<?php echo $esp['idespecialista']; ?>">
-                            <button type="submit" class="action-btn">Deshabilitar</button>
+                            <button type="submit" class="action-btn delete-btn" title="Eliminar" 
+                                    onclick="event.stopPropagation();">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </form>
-                    </td>
-                    <?php endif; ?>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+                    </div>
+                </td>
+                <?php endif; ?>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 </div>

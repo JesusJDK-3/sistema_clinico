@@ -16,6 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $controlador = new EspecialistaController();
     $controlador->agregarEspecialista($data);
 
-    header("Location: http://localhost/SistemaClinico/views/Clinica/Especialistas.php");
+    header("Location: http://localhost/SistemaClinico/views/Clinica/principal.php?pagina=especialistas");
     exit;
 }
