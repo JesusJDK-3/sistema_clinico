@@ -15,6 +15,9 @@ if (!isset($_SESSION['rol'])) {
     <link rel="stylesheet" href="../../assets/Specialist/TbEspecialista.css">
     <link rel="stylesheet" href="../../assets/Specialist/Modal.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+    </style>
 </head>
 <body>
     <div class="main-container">

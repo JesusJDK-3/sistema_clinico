@@ -6,9 +6,9 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Nunito', sans-serif, Geneva, Verdana;
     background-color: #f5f7fa;
-    color: #333;
+    color: #76869e;
     
 }
 
@@ -58,7 +58,7 @@ body {
     margin: 0 auto;
 }
 .sidebar i {
-    font-size: 1.3rem; 
+    font-size: 14px; 
     color: #adaeb1;
     transition: font-size 0.3s;
 }
@@ -92,11 +92,15 @@ body {
 
 .header-search .search-input {
     width: 100%;
-    padding: 10px 40px 10px 15px;
+    padding: 10px 10px 10px 40px;
     border: 2px solid #e1e5e9;
-    border-radius: 25px;
+    border-radius: 5px;
     font-size: 14px;
     transition: all 0.3s ease;
+}
+.search-input::placeholder {
+    color: #76869e; /* Cambia este valor por el color que desees */
+    opacity: 1;     /* Para que no se vea desvanecido */
 }
 
 .header-search .search-input:focus {
@@ -124,7 +128,7 @@ body {
 }
 
 .header-search .btn-new {
-    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    background: #f07e0b;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -152,14 +156,14 @@ body {
 }
 
 .content-header h1 {
-    font-size: 2rem;
+    font-size: 14px;
     color: #2c3e50;
     margin-bottom: 10px;
 }
 
 .content-header .breadcrumb {
     color: #7f8c8d;
-    font-size: 0.9rem;
+    font-size: 0.14px;
 }
 
 /* Cards y formularios */

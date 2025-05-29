@@ -16,21 +16,26 @@
 /* Tabla principal */
 .specialists-table {
     width: 100%;
-    border-collapse: collapse;
+    border-spacing: 0 4px;
+    border-collapse: separate;
     border-radius: 10px;
     overflow: hidden;
 }
 
 
 .specialists-table th {
-    padding: 10px 12px; /* Reducido de 15px */
+    padding: 10px 12px; 
+    padding-bottom: 40px !important;
     text-align: left;
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
+    font-size: 14px;
     letter-spacing: 0.5px;
     border: none;
     background: transparent !important;
+}
+.bordered-text {
+    display: inline-block;
+    border-bottom: 2px solid #76869e;
+    padding-bottom: 2px;
 }
 
 .specialists-table tbody tr {
@@ -51,8 +56,8 @@
 
 .specialists-table td {
     padding: 10px 12px; /* Reducido de 15px */
-    font-size: 1.0rem;
-    color: #2c3e50;
+    font-size: 14px;
+    color: #76869e;
     border: none;
     vertical-align: middle;
 }
@@ -115,19 +120,20 @@ tr:nth-child(8n+8) .user-avatar { background: #a18cd1; }
 }
 
 .specialists-table .name-col {
-    font-weight: 600;
-    color: #2c3e50;
+    color: #5d6d84;
+    font-weight: Bold;
 }
 
 .specialists-table .dni-col {
-    font-family: 'Courier New', monospace;
     border-radius: 5px;
+    font-weight: normal;
     padding: 5px 8px;
     font-size: 0.9rem;
+    color: #76869e;
 }
 
 .specialists-table .contact-col {
-    color: #7f8c8d;
+    color: #76869e;
     font-size: 0.9rem;
 }
 
@@ -184,13 +190,10 @@ tr:nth-child(8n+8) .user-avatar { background: #a18cd1; }
 
 .action-btn {
     background: transparent;
-    border: 1px solid #dee2e6;
-    color: #6c757d;
+    border: none;
     padding: 6px 8px;
-    border-radius: 6px;
     cursor: pointer;
     font-size: 0.85rem;
-    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -203,17 +206,7 @@ tr:nth-child(8n+8) .user-avatar { background: #a18cd1; }
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.edit-btn:hover {
-    background: #007bff;
-    color: white;
-    border-color: #007bff;
-}
 
-.delete-btn:hover {
-    background: #dc3545;
-    color: white;
-    border-color: #dc3545;
-}
 
 /* Estados de fila */
 .specialists-table .row-selected {
@@ -229,7 +222,7 @@ tr:nth-child(8n+8) .user-avatar { background: #a18cd1; }
 /* Responsive para tabla */
 @media (max-width: 1200px) {
     .specialists-table {
-        font-size: 0.85rem;
+        font-size: 14px;
     }
     
     .specialists-table th,
@@ -240,7 +233,8 @@ tr:nth-child(8n+8) .user-avatar { background: #a18cd1; }
     .user-avatar {
         width: 30px;
         height: 30px;
-        font-size: 0.75rem;
+        font-size: 12px;
+        font-weight: 600;
     }
 }
 
@@ -252,7 +246,7 @@ tr:nth-child(8n+8) .user-avatar { background: #a18cd1; }
     }
     
     .specialists-table {
-        font-size: 0.8rem;
+        font-size: 14px;
     }
     
     .specialists-table th,
@@ -269,7 +263,7 @@ tr:nth-child(8n+8) .user-avatar { background: #a18cd1; }
     .user-avatar {
         width: 28px;
         height: 28px;
-        font-size: 0.7rem;
+        font-size: 12px;
     }
     
     .action-buttons {
@@ -279,7 +273,7 @@ tr:nth-child(8n+8) .user-avatar { background: #a18cd1; }
     .action-btn {
         min-width: 28px;
         height: 28px;
-        font-size: 0.8rem;
+        font-size: 12px;
     }
     
     .name-with-avatar {

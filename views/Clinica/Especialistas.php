@@ -36,6 +36,13 @@ function cerrarModal() {
 
 // Función para nuevo especialista
 function nuevoEspecialista() {
+    document.getElementById('formEspecialista').action = "../../controllers/Specialist/agregarEspecialista.php";
+    document.getElementById('form_titulo').innerText = "Agregar Especialista";
+    document.getElementById('btn_guardar').innerText = "Agregar";
+    document.getElementById('formEspecialista').reset();
+    document.getElementById('edit_id').value = '';
+    document.getElementById('subarea_div').style.display = 'none';
+    
     abrirModal();
 }
 
@@ -57,6 +64,39 @@ function cargarEspecialista(esp) {
     } else {
         document.getElementById('subarea_div').style.display = 'none';
     }
+    
+    // Cargar horarios existentes
+    fetch('../../controllers/Specialist/obtenerHorarios.php?id=' + esp.idespecialista)
+        .then(response => response.json())
+        .then(horarios => {
+            const container = document.getElementById('horarios-container');
+            container.innerHTML = ''; // Limpiar horarios existentes
+            horarios.forEach(horario => {
+                const newHorario = document.createElement('div');
+                newHorario.classList.add('horario');
+                newHorario.innerHTML = `
+                    <select name="dia_semana[]" class="form-control" required>
+                        <option value="${horario.dia_semana}">${horario.dia_semana}</option>
+                        <option value="Lunes">Lunes</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Miércoles">Miércoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                        <option value="Sábado">Sábado</option>
+                        <option value="Domingo">Domingo</option>
+                    </select>
+                    <input type="time" name="hora_inicio[]" class="form-control" value="${horario.hora_inicio}" required>
+                    <input type="time" name="hora_fin[]" class="form-control" value="${horario.hora_fin}" required>
+                    <input type="checkbox" name="activo[]" value="1" ${horario.activo ? 'checked' : ''}> Activo
+                    <button type="button" class="btn btn-danger" onclick="eliminarHorario(this)">Eliminar</button>
+                `;
+                container.appendChild(newHorario);
+            });
+        })
+        .catch(error => {
+            console.error('Error cargando horarios:', error);
+        });
+
     document.querySelectorAll('.specialists-table tbody tr').forEach(row => {
         row.classList.remove('row-selected');
     });
@@ -65,6 +105,7 @@ function cargarEspecialista(esp) {
     // Abrir modal para editar
     abrirModal();
 }
+
 
 // Función específica para el botón de editar
 function editarEspecialista(esp, event) {
@@ -105,6 +146,35 @@ window.onclick = function(event) {
         cerrarModal();
     }
 }
+
+function agregarHorario() {
+    const container = document.getElementById('horarios-container');
+    const newHorario = document.createElement('div');
+    newHorario.classList.add('horario');
+    newHorario.innerHTML = `
+        <select name="dia_semana[]" class="form-control" required>
+            <option value="">Seleccione día</option>
+            <option value="Lunes">Lunes</option>
+            <option value="Martes">Martes</option>
+            <option value="Miércoles">Miércoles</option>
+            <option value="Jueves">Jueves</option>
+            <option value="Viernes">Viernes</option>
+            <option value="Sábado">Sábado</option>
+            <option value="Domingo">Domingo</option>
+        </select>
+        <input type="time" name="hora_inicio[]" class="form-control" required>
+        <input type="time" name="hora_fin[]" class="form-control" required>
+        <input type="checkbox" name="activo[]" value="1" checked> Activo
+        <button type="button" class="btn btn-danger" onclick="eliminarHorario(this)">Eliminar</button>
+    `;
+    container.appendChild(newHorario);
+}
+
+function eliminarHorario(button) {
+    const horarioDiv = button.parentElement;
+    horarioDiv.remove();
+}
+
 </script>
 
 <!-- container 2 -->
@@ -115,8 +185,8 @@ window.onclick = function(event) {
     <!-- Header -->
     <div class="header-search">
         <div class="search-container">
-            <input type="text" class="search-input" placeholder="Buscar paciente por nombre, email, celular, DNI/CURP, registro médico y/o monedero electronico">
-            <i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color:rgb(180, 184, 185);"></i>
+            <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color:rgb(180, 184, 185);"></i>
+            <input type="text" class="search-input" placeholder="Buscar paciente por nombre, email, celular, DNI/CURP, registro médico y/o monedero electronico">  
         </div>
         <div class="user-info">
             <?php if ($rol === 'C.General'): ?>
@@ -129,79 +199,115 @@ window.onclick = function(event) {
     
 
     <!-- Modal para Formulario de Especialista -->
-    <?php if ($rol === 'C.General'): ?>
-        <div id="modalEspecialista" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="form_titulo">Agregar Especialista</h2>
-                    <span class="close" onclick="cerrarModal()">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="../../controllers/Specialist/agregarEspecialista.php" id="formEspecialista">
-                        <input type="hidden" name="id" id="edit_id">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="nombres">Nombres</label>
-                                <input type="text" name="nombres" id="nombres" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="apellidos">Apellidos</label>
-                                <input type="text" name="apellidos" id="apellidos" class="form-control" required>
-                            </div>
+<?php if ($rol === 'C.General'): ?>
+    <div id="modalEspecialista" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="form_titulo">Agregar Especialista</h2>
+                <span class="close" onclick="cerrarModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="../../controllers/Specialist/agregarEspecialista.php" id="formEspecialista">
+                    <input type="hidden" name="id" id="edit_id">
+                    <!-- Campos para datos del especialista -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombres">Nombres</label>
+                            <input type="text" name="nombres" id="nombres" class="form-control" required>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="dni">DNI</label>
-                                <input type="text" name="dni" id="dni" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="telefono">Teléfono</label>
-                                <input type="text" name="telefono" id="telefono" class="form-control">
-                            </div>
+                        <div class="form-group">
+                            <label for="apellidos">Apellidos</label>
+                            <input type="text" name="apellidos" id="apellidos" class="form-control" required>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="correo">Correo Electrónico</label>
-                                <input type="email" name="correo" id="correo" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="idarea_esp">Área de Especialidad</label>
-                                <select name="idarea" id="idarea_esp" class="form-control" onchange="mostrarSubarea()" required>
-                                    <option value="">Seleccione área</option>
-                                    <?php foreach ($areas as $area): ?>
-                                        <option value="<?php echo $area['idarea']; ?>"><?php echo htmlspecialchars($area['area']); ?></option>
-                                    <?php endforeach; ?>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dni">DNI</label>
+                            <input type="text" name="dni" id="dni" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="text" name="telefono" id="telefono" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="correo">Correo Electrónico</label>
+                            <input type="email" name="correo" id="correo" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="idarea_esp">Área de Especialidad</label>
+                            <select name="idarea" id="idarea_esp" class="form-control" onchange="mostrarSubarea()" required>
+                                <option value="">Seleccione área</option>
+                                <?php foreach ($areas as $area): ?>
+                                    <option value="<?php echo $area['idarea']; ?>"><?php echo htmlspecialchars($area['area']); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="subarea_div" style="display:none;">
+                        <div class="form-group">
+                            <label for="idsubarea">Subárea</label>
+                            <select name="idsubarea" id="idsubarea" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <!-- Sección para agregar horarios -->
+                    <div class="form-row">
+                        <h3>Horarios</h3>
+                        <div id="horarios-container">
+                            <div class="horario">
+                                <select name="dia_semana[]" class="form-control" required>
+                                    <option value="">Seleccione día</option>
+                                    <option value="Lunes">Lunes</option>
+                                    <option value="Martes">Martes</option>
+                                    <option value="Miércoles">Miércoles</option>
+                                    <option value="Jueves">Jueves</option>
+                                    <option value="Viernes">Viernes</option>
+                                    <option value="Sábado">Sábado</option>
+                                    <option value="Domingo">Domingo</option>
                                 </select>
+                                <input type="time" name="hora_inicio[]" class="form-control" required>
+                                <input type="time" name="hora_fin[]" class="form-control" required>
+                                <input type="checkbox" name="activo[]" value="1" checked> Activo
+                                <button type="button" class="btn btn-danger" onclick="eliminarHorario(this)">Eliminar</button>
                             </div>
                         </div>
-                        <div id="subarea_div" style="display:none;">
-                            <div class="form-group">
-                                <label for="idsubarea">Subárea</label>
-                                <select name="idsubarea" id="idsubarea" class="form-control"></select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="cerrarModal()">Cancelar</button>
-                    <button type="submit" form="formEspecialista" class="btn btn-primary" id="btn_guardar">Agregar</button>
-                </div>
+                        <button type="button" class="btn btn-primary" onclick="agregarHorario()">Agregar Horario</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="cerrarModal()">Cancelar</button>
+                <button type="submit" form="formEspecialista" class="btn btn-primary" id="btn_guardar">Agregar</button>
             </div>
         </div>
-    <?php endif; ?>
+    </div>
+<?php endif; ?>
+
 
     <!-- Tabla de Especialistas -->
 <div class="table-container">
     <table class="specialists-table">
         <thead>
             <tr>
-                <th>Nombres y Apellidos</th>
-                <th>DNI</th>
-                <th>Celular</th>
-                <th>Correo</th>
-                <th>AREA Y SUBAREA</th>
+                <th>
+                    <span class="bordered-text">Nombres y Apellidos</span>
+                </th>
+                <th>
+                    <span class="bordered-text">Dni</span>
+                </th>
+                <th>
+                    <span class="bordered-text">Celular</span>
+                </th>
+                <th>
+                    <span class="bordered-text">Correo</span>
+                </th>
+                <th>
+                    <span class="bordered-text">Area</span>
+                </th>
                 <?php if ($rol === 'C.General'): ?>
-                    <th class="actions-col">Acciones</th>
+                    <th class="actions-col"></th>
                 <?php endif; ?>
             </tr>
         </thead>
@@ -227,9 +333,6 @@ window.onclick = function(event) {
                 <td class="role-col">
                     <span class="role-badge">
                         <?php echo htmlspecialchars($esp['area']); ?>
-                        <?php if (!empty($esp['subarea'])): ?>
-                            <small class="subarea-text"><?php echo htmlspecialchars($esp['subarea']); ?></small>
-                        <?php endif; ?>
                     </span>
                 </td>
                 <?php if ($rol === 'C.General'): ?>
@@ -239,14 +342,14 @@ window.onclick = function(event) {
                                 class="action-btn edit-btn" 
                                 onclick="editarEspecialista(<?php echo htmlspecialchars(json_encode($esp)); ?>, event)"
                                 title="Editar">
-                            <i class="fas fa-edit"></i>
+                            <img src="../../img/editar.jpg" alt="Editar" style="width:22px; height:22px;">
                         </button>
                         <form method="POST" action="../../controllers/Specialist/deshabilitarEspecialista.php" style="display:inline;" 
                               onsubmit="event.stopPropagation();">
                             <input type="hidden" name="id" value="<?php echo $esp['idespecialista']; ?>">
                             <button type="submit" class="action-btn delete-btn" title="Eliminar" 
                                     onclick="event.stopPropagation();">
-                                <i class="fas fa-trash"></i>
+                                <img src="../../img/eliminar.jpg" alt="Editar" style="width:22px; height:22px;">
                             </button>
                         </form>
                     </div>

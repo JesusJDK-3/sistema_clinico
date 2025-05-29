@@ -29,13 +29,13 @@ class EspecialistaModel {
         return $result;
     }
 
-    public function agregarEspecialista($data) {
+    public function agregarEspecialista($data, $returnId = false) {
         $pdo = connectDatabase();
 
         // Insertar en usuarios
         $stmt = $pdo->prepare("INSERT INTO usuarios (nombres, apellidos, dni, telefono, correo, idestado, idrol, usuario, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $usuario = strtolower(explode(' ', $data['nombres'])[0]) . rand(100,999);
-        $password = password_hash($data['dni'], PASSWORD_DEFAULT); // Contraseña igual que 
+        $password = password_hash($data['dni'], PASSWORD_DEFAULT); // Contraseña igual que DNI
         $idrol = 3; // Rol especialista
         $idestado = 1; // Activo
 
@@ -57,9 +57,10 @@ class EspecialistaModel {
         $idsubarea = $data['idsubarea'] ?? null;
         $stmt2 = $pdo->prepare("INSERT INTO especialistas (idusuario, idarea, idsubarea) VALUES (?, ?, ?)");
         $stmt2->execute([$idusuario, $idarea, $idsubarea]);
+        $idespecialista = $pdo->lastInsertId();
 
         closeDatabase($pdo);
-        return true;
+        return $returnId ? $idespecialista : true;
     }
 
     public function editarEspecialista($id, $data) {
@@ -96,4 +97,20 @@ class EspecialistaModel {
         closeDatabase($pdo);
         return true;
     }
+    public function agregarHorario($idespecialista, $dia, $hora_inicio, $hora_fin, $activo = 1) {
+    $pdo = connectDatabase();
+    $stmt = $pdo->prepare("INSERT INTO horarios (idespecialista, dia_semana, hora_inicio, hora_fin, activo) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$idespecialista, $dia, $hora_inicio, $hora_fin, $activo]);
+    closeDatabase($pdo);
+    return true;
+}
+public function obtenerHorariosPorEspecialista($idespecialista) {
+    $pdo = connectDatabase();
+    $stmt = $pdo->prepare("SELECT * FROM horarios WHERE idespecialista = ?");
+    $stmt->execute([$idespecialista]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    closeDatabase($pdo);
+    return $result;
+}
+
 }
